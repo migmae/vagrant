@@ -1,14 +1,35 @@
-## Next version (Unreleased)
+## 2.0.4 (April 20, 2018)
 
 FEATURES:
 
+- core: Vagrant aliases [GH-9504]
+
 IMPROVEMENTS:
 
-- guests/windows: Fix slow timeout when updating windows hostname [GH-9578]
+- communicators/ssh: Update file permissions when generating new key pairs [GH-9676]
+- core: Make resolv-replace usage opt-in instead of opt-out [GH-9644]
+- core: Suppress error messages from checkpoint runs [GH-9645]
 - guests/coreos: Identify operating systems closely related to CoreOS [GH-9600]
+- guests/debian: Adjust network configuration file prefix to 50- [GH-9646]
 - guests/photon: Less specific string grep to fix PhotonOS 2.0 detection [GH-9528]
+- guests/windows: Fix slow timeout when updating windows hostname [GH-9578]
+- hosts/windows: Make powershell version detection timeout configurable [GH-9506]
+- providers/virtualbox: Improve network collision error message [GH-9685]
+- provisioner/chef_solo: Improve Windows drive letter removal hack for remote paths[GH-9490]
+- provisioner/chef_zero: File path expand all chef_zero config path options [GH-9690]
+- provisioner/puppet: Puppet structured facts toyaml on provisioner [GH-9670]
+- provisioner/salt: Add master_json_config & minion_json_config options [GH-9420]
+- util/platform: Warn on ArgumentError exceptions from encoding [GH-9506]
 
 BUG FIXES:
+
+- commands/package: Fix uninitialized constant error [GH-9654]
+- communicators/winrm: Fix command filter to properly parse commands [GH-9673]
+- hosts/windows: Properly respect the VAGRANT_PREFER_SYSTEM_BIN environment variable [GH-9503]
+- hosts/windows: Fix virtualbox shared folders path for windows guests [GH-8099]
+- guests/freebsd: Fix typo in command that manages configuring networks [GH-9705]
+- util/checkpoint_client: Respect VAGRANT_CHECKPOINT_DISABLE environment variable [GH-9659]
+- util/platform: Use `--version` instead of `version` for WSL validation [GH-9674]
 
 ## 2.0.3 (March 15, 2018)
 

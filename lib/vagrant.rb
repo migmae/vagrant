@@ -65,9 +65,16 @@ require 'i18n'
 # there are issues with ciphers not being properly loaded.
 require 'openssl'
 
+# If we are on Windows, load in File helpers
+if Vagrant::Util::Platform.windows?
+  require "ffi-win32-extensions"
+  require "win32/file/security"
+end
+
 # Always make the version available
 require 'vagrant/version'
 global_logger = Log4r::Logger.new("vagrant::global")
+Vagrant.global_logger = global_logger
 global_logger.info("Vagrant version: #{Vagrant::VERSION}")
 global_logger.info("Ruby version: #{RUBY_VERSION}")
 global_logger.info("RubyGems version: #{Gem::VERSION}")
@@ -83,6 +90,7 @@ require "vagrant/registry"
 
 module Vagrant
   autoload :Action,        'vagrant/action'
+  autoload :Alias,         'vagrant/alias'
   autoload :BatchAction,   'vagrant/batch_action'
   autoload :Box,           'vagrant/box'
   autoload :BoxCollection, 'vagrant/box_collection'

@@ -223,7 +223,15 @@ module Vagrant
             # Traverse each part and join it into the resulting path
             original.each do |single|
               Dir.entries(path).each do |entry|
-                if entry.downcase == single.encode('filesystem').downcase
+                begin
+                  single = single.encode("filesystem").to_s
+                rescue ArgumentError => err
+                  Vagrant.global_logger.warn("path encoding failed - part=#{single} err=#{err.class} msg=#{err}")
+                  # NOTE: Depending on the Windows environment the above
+                  # encode will generate an "input string invalid" when
+                  # attempting to encode. If that happens, continue on
+                end
+                if entry.downcase == single.downcase
                   path = path.join(entry)
                 end
               end
@@ -553,9 +561,9 @@ module Vagrant
         def wsl_validate_matching_vagrant_versions!
           valid = false
           if Util::Which.which("vagrant.exe")
-            result = Util::Subprocess.execute("vagrant.exe", "version")
+            result = Util::Subprocess.execute("vagrant.exe", "--version")
             if result.exit_code == 0
-              windows_version = result.stdout.match(/Installed Version: (?<version>[\w.-]+)/)
+              windows_version = result.stdout.match(/Vagrant (?<version>[\w.-]+)/)
               if windows_version
                 windows_version = windows_version[:version].strip
                 valid = windows_version == Vagrant::VERSION

@@ -39,6 +39,10 @@ module Vagrant
         rescue LoadError
           @logger.warn("checkpoint library not found. disabling.")
         end
+        if ENV["VAGRANT_CHECKPOINT_DISABLE"]
+          @logger.debug("checkpoint disabled via explicit user request")
+          @enabled = false
+        end
         @files = {
           signature: env.data_dir.join("checkpoint_signature"),
           cache: env.data_dir.join("checkpoint_cache")
@@ -74,6 +78,10 @@ module Vagrant
         if enabled && @checkpoint_thread.nil?
           logger.debug("starting plugin check")
           @checkpoint_thread = Thread.new do
+            Thread.current.abort_on_exception = false
+            if Thread.current.respond_to?(:report_on_exception=)
+              Thread.current.report_on_exception = false
+            end
             begin
               Thread.current[:result] = Checkpoint.check(
                 product: "vagrant",
