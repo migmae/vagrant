@@ -2,9 +2,17 @@
 
 FEATURES:
 
+- core: Integrate vagrant-triggers plugin functionality into core Vagrant [GH-9713]
+
 IMPROVEMENTS:
 
+- core: Improve messaging around not finding requested provider [GH-9735]
+- provisioner/chef_zero: Support arrays for data_bags_path [GH-9669]
+- util/downloader: Don't raise error if response is HTTP 416 [GH-9729]
+
 BUG FIXES:
+
+- provisioner/puppet: Properly finalize structured_facts config option [GH-9720]
 
 ## 2.0.4 (April 20, 2018)
 
